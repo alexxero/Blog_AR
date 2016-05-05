@@ -36,3 +36,12 @@ post '/NewPost' do
     erb :NewPost
   end
 end
+
+get '/post/:id' do
+  @postid = Post.find(params[:id])
+  erb :post
+end
+
+after do
+  ActiveRecord::Base.connection.close
+end
