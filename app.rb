@@ -16,7 +16,8 @@ class Comment < ActiveRecord::Base
 end
 
 get '/' do
-	erb "Hello!"
+  @posts = Post.order "created_at DESC"
+	erb :index
 end
 
 get '/NewPost' do
@@ -26,4 +27,12 @@ end
 
 post '/NewPost' do
   @post = Post.new params[:bloger]
+  @post.save
+
+  if @post.save
+    erb "<h3>Пост добавлен!</h3>"
+  else
+    @error = @post.errors.full_messages.first
+    erb :NewPost
+  end
 end
